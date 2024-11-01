@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Chỉnh Sửa Bài Viết{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <h2 class="text-center">Chỉnh Sửa Bài Viết</h2>
+
+    <!-- Form chỉnh sửa bài viết -->
+    <form action="{{ url_for('edit_post', post_id=post_id) }}" method="post" class="mb-4">
+        <div class="form-group">
+            <label for="title">Tiêu đề</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Nội dung</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required>{{ post.content }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật bài viết</button>
+        <a href="{{ url_for('blog') }}" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
+{% endblock %}

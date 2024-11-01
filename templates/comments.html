@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bình luận</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bình luận</h1>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        <h2>Danh sách bình luận</h2>
+        <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <strong>{{ comment.username }}</strong>: {{ comment.content }}
+                    {% if not comment.approved %}
+                        <span class="badge badge-warning">Chưa duyệt</span>
+                    {% endif %}
+                    {% if comment.username == session.get('username') %}
+                        <div class="pull-right">
+                            <a href="{{ url_for('edit_comment', comment_id=loop.index0) }}" class="btn btn-xs btn-info">Chỉnh sửa</a>
+                        </div>
+                    {% endif %}
+                    {% if session.get('username') == 'admin' and not comment.approved %}
+                        <div class="pull-right">
+                            <a href="{{ url_for('approve_comment', comment_id=loop.index0) }}" class="btn btn-xs btn-success">Duyệt bình luận</a>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Thêm bình luận</h3>
+        <form action="{{ url_for('post_comment') }}" method="post">
+            <div class="form-group">
+                <textarea name="comment" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Gửi bình luận</button>
+        </form>
+    </div>
+</body>
+</html>

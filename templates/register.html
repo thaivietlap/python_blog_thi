@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Đăng Ký</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('register') }}" method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Tên người dùng:</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu:</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Xác nhận mật khẩu:</label>
+                <input type="password" class="form-control" name="confirm_password" required>
+            </div>
+            <div class="form-group">
+                <label for="real_name">Tên thật:</label>
+                <input type="text" class="form-control" name="real_name" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Địa điểm:</label>
+                <input type="text" class="form-control" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="about_me">Thông tin về bản thân:</label>
+                <textarea class="form-control" name="about_me" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Đăng Ký</button>
+        </form>
+        <p class="mt-3">Đã có tài khoản? <a href="{{ url_for('login') }}">Đăng nhập</a></p>
+    </div>
+</body>
+</html>

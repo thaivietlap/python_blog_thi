@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Thông tin cá nhân{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <h1 class="text-center">Thông tin cá nhân của {{ user_info.username }}</h1>
+    
+    <!-- Avatar -->
+    <div class="text-center mb-4">
+        <img src="{{ user_info.avatar_url or url_for('static', filename='uploads/lap.jpg') }}" alt="Avatar" class="rounded-circle" width="150" height="150">
+    </div>
+    
+    <!-- User Details Panel -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Chi tiết người dùng</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Tên thật:</strong> {{ user_info.real_name or "Chưa cập nhật" }}</p>
+            <p><strong>Địa điểm:</strong> {{ user_info.location or "Chưa cập nhật" }}</p>
+            <p><strong>Giới thiệu:</strong> {{ user_info.about_me or "Chưa cập nhật" }}</p>
+            <p><strong>Email:</strong> {{ user_info.email }}</p>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('edit_profile') }}" class="btn btn-warning">Chỉnh sửa thông tin</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Đăng xuất</a>
+    </div>
+</div>
+{% endblock %}

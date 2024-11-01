@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Trang Chủ{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <h1>Xin chào, {{ username }}!</h1>
+    
+    <form action="{{ url_for('blog') }}" method="post">
+        <div class="form-group">
+            <label for="content">Bạn đang nghĩ gì?</label>
+            <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Đăng</button>
+    </form>
+    
+    <h2 class="mt-5">Danh sách bài viết</h2>
+    {% if posts %}
+        <ul class="list-group">
+            {% for post in posts %}
+                <li class="list-group-item">
+                    <h5>{{ post.title }} <small class="text-muted">- {{ post.author }}</small></h5>
+                    <p>{{ post.content }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Chưa có bài viết nào.</p>
+    {% endif %}
+
+    <h2 class="mt-5">Danh sách người dùng</h2>
+    <ul class="list-group">
+        {% for email, user in users.items() %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('profile', email=email) }}">{{ user.username }}</a>
+                {% if 'email' in session and session['email'] in users %}
+                    {% if email in users[session['email']]['following'] %}
+                        <span>(Đang theo dõi)</span>
+                        <a href="{{ url_for('unfollow', email_to_unfollow=email) }}" class="btn btn-link">Hủy theo dõi</a>
+                    {% else %}
+                        <a href="{{ url_for('follow', email_to_follow=email) }}" class="btn btn-link">Theo dõi</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-link">Đăng nhập để theo dõi</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    
+
+
+</div>
+{% endblock %}

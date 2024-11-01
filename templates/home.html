@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Trang Chủ Mới{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <h1>Chào mừng, {{ username if username else 'Khách' }}!</h1>
+    <form action="{{ url_for('blog') }}" method="post">
+        <div class="form-group">
+            <label for="title">Tiêu đề bài viết</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="content">Bạn muốn chia sẻ gì?</label>
+            <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Đăng bài</button>
+    </form>
+    
+    <h2 class="mt-5">Bài viết gần đây</h2>
+    {% if posts %}
+        <div class="list-group">
+            {% for post in posts %}
+                <div class="list-group-item">
+                    <h5>{{ post.title }} <small class="text-muted">- Đăng bởi {{ post.author }}</small></h5>
+                    <p>{{ post.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Chưa có bài viết nào được chia sẻ.</p>
+    {% endif %}
+</div>
+{% endblock %}
